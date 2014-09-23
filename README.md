@@ -1,4 +1,29 @@
-buffer_status_update
-====================
+BufferStatusUpdate
+==================
 
-Create a new Buffer status update.
+Create a new Buffer status update for each input signsl. Uses the [/updates/create API](https://bufferapp.com/developers/api/updates#updatescreate).
+
+Properties
+--------------
+
+-   **access_token**: Buffer API Access Token.
+-   **profile_ids[]**: An array of profile id's that the status update should be sent to. Invalid profile\_id's will be silently ignored.
+-   **text**(ExpressionProperty): The status update text.
+
+
+Dependencies
+----------------
+
+-   [requests](https://pypi.python.org/pypi/requests/)
+
+Commands
+----------------
+None
+
+Input
+-------
+Any list of signals.
+
+Output
+---------
+None
