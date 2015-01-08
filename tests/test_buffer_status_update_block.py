@@ -6,8 +6,7 @@ from nio.util.support.block_test_case import NIOBlockTestCase
 
 class TestBufferStatusUpdate(NIOBlockTestCase):
 
-    @patch('buffer_status_update.buffer_status_update_block.'
-           'BufferStatusUpdate._status_update')
+    @patch.object(BufferStatusUpdate, '_status_update')
     def test_process_signal(self, mock_post):
         signals = [Signal({'text': 'this is my status update'})]
         blk = BufferStatusUpdate()
@@ -21,8 +20,7 @@ class TestBufferStatusUpdate(NIOBlockTestCase):
         )
         blk.stop()
 
-    @patch('buffer_status_update.buffer_status_update_block.'
-           'BufferStatusUpdate._status_update')
+    @patch.object(BufferStatusUpdate, '_status_update')
     def test_process_multiple(self, mock_post):
         signals = [
             Signal({'text': 'this is my status update'}),
@@ -35,8 +33,7 @@ class TestBufferStatusUpdate(NIOBlockTestCase):
         self.assertEqual(mock_post.call_count, len(signals))
         blk.stop()
 
-    @patch('buffer_status_update.buffer_status_update_block.'
-           'BufferStatusUpdate._status_update')
+    @patch.object(BufferStatusUpdate, '_status_update')
     def test_bad_config(self, mock_post):
         signals = [Signal({'text': 'this is my status update'})]
         blk = BufferStatusUpdate()
