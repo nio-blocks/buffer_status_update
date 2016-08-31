@@ -1,7 +1,7 @@
 from unittest.mock import patch, MagicMock
 from ..buffer_status_update_block import BufferStatusUpdate
-from nio.common.signal.base import Signal
-from nio.util.support.block_test_case import NIOBlockTestCase
+from nio.signal.base import Signal
+from nio.testing.block_test_case import NIOBlockTestCase
 
 
 class TestBufferStatusUpdate(NIOBlockTestCase):
@@ -16,7 +16,7 @@ class TestBufferStatusUpdate(NIOBlockTestCase):
         mock_post.assert_called_once_with(
             {'profile_ids[]': ['[[BUFFER_PROFILE_ID]]'],
              'text': signals[0].text,
-             'access_token': blk.access_token}
+             'access_token': blk.access_token()}
         )
         blk.stop()
 
@@ -38,9 +38,9 @@ class TestBufferStatusUpdate(NIOBlockTestCase):
         signals = [Signal({'text': 'this is my status update'})]
         blk = BufferStatusUpdate()
         self.configure_block(blk, {'text': '{{text+2}}'})
-        blk._logger.error = MagicMock()
+        blk.logger.error = MagicMock()
         blk.start()
         blk.process_signals(signals)
-        self.assertEqual(blk._logger.error.call_count, 1)
+        self.assertEqual(blk.logger.error.call_count, 1)
         self.assertEqual(mock_post.call_count, 0)
         blk.stop()
