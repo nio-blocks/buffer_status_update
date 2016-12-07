@@ -1,10 +1,10 @@
 import requests
-from nio.common.discovery import Discoverable, DiscoverableType
-from nio.metadata.properties.expression import ExpressionProperty
-from nio.metadata.properties.list import ListProperty
-from nio.metadata.properties.string import StringProperty
-from nio.metadata.properties.holder import PropertyHolder
-from nio.common.block.base import Block
+from nio.util.discovery import discoverable
+from nio.properties import Property
+from nio.properties.list import ListProperty
+from nio.properties.string import StringProperty
+from nio.properties.holder import PropertyHolder
+from nio.block.base import Block
 
 
 POST_URL = "https://api.bufferapp.com/1/updates/create.json"
@@ -15,10 +15,10 @@ class ProfileID(PropertyHolder):
                                 title='Profile ID')
 
 
-@Discoverable(DiscoverableType.block)
+@discoverable
 class BufferStatusUpdate(Block):
 
-    text = ExpressionProperty(default='{{$text}}',
+    text = Property(default='{{$text}}',
                               title='Status Update Text')
     profile_ids = ListProperty(ProfileID, default=[ProfileID()],
                                title='Profile IDs')
@@ -30,21 +30,21 @@ class BufferStatusUpdate(Block):
             try:
                 text = self.text(s)
             except Exception as e:
-                self._logger.error(
+                self.logger.error(
                     "Text evaluation failed: {0}: {1}".format(
                         type(e).__name__, str(e))
                 )
                 continue
-            data = {'access_token': self.access_token,
+            data = {'access_token': self.access_token(),
                     'text': text,
-                    'profile_ids[]': [pid.profile_id for pid in self.profile_ids]}
+                    'profile_ids[]': [pid.profile_id() for pid in self.profile_ids()]}
             self._status_update(data)
 
     def _status_update(self, payload):
         response = requests.post(POST_URL, data=payload)
         status = response.status_code
         if status != 200:
-            self._logger.error(
+            self.logger.error(
                 "Buffer Status Update to {} with text '{}' "
                 "failed with status {}".format(
                     payload['profile_ids[]'],
@@ -53,7 +53,7 @@ class BufferStatusUpdate(Block):
                 )
             )
         else:
-            self._logger.debug(
+            self.logger.debug(
                 "Buffer Status Update to {} with text '{}'".format(
                     payload['profile_ids[]'],
                     payload['text']
