@@ -4,8 +4,7 @@ from nio.properties import Property
 from nio.properties.list import ListProperty
 from nio.properties.string import StringProperty
 from nio.properties.holder import PropertyHolder
-from nio.block.base import Block
-
+from nio import TerminatorBlock
 
 POST_URL = "https://api.bufferapp.com/1/updates/create.json"
 
@@ -16,7 +15,7 @@ class ProfileID(PropertyHolder):
 
 
 @discoverable
-class BufferStatusUpdate(Block):
+class BufferStatusUpdate(TerminatorBlock):
 
     text = Property(default='{{$text}}',
                               title='Status Update Text')
