@@ -1,7 +1,7 @@
 {
   "nio/BufferStatusUpdate": {
     "language": "Python",
-    "version": "0.0.1",
-    "url": "git://github.com/nio-blocks/buffer_status_update.git"
+    "url": "git://github.com/nio-blocks/buffer_status_update.git",
+    "version": "1.0.0"
   }
 }

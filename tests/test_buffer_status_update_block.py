@@ -1,7 +1,9 @@
 from unittest.mock import patch, MagicMock
-from ..buffer_status_update_block import BufferStatusUpdate
+
 from nio.signal.base import Signal
 from nio.testing.block_test_case import NIOBlockTestCase
+
+from ..buffer_status_update_block import BufferStatusUpdate
 
 
 class TestBufferStatusUpdate(NIOBlockTestCase):

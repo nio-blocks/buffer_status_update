@@ -1,9 +1,7 @@
 import requests
-from nio.util.discovery import discoverable
-from nio.properties import Property
-from nio.properties.list import ListProperty
-from nio.properties.string import StringProperty
-from nio.properties.holder import PropertyHolder
+
+from nio.properties import (Property, ListProperty, StringProperty,
+                            PropertyHolder, VersionProperty)
 from nio import TerminatorBlock
 
 POST_URL = "https://api.bufferapp.com/1/updates/create.json"
@@ -14,15 +12,15 @@ class ProfileID(PropertyHolder):
                                 title='Profile ID')
 
 
-@discoverable
 class BufferStatusUpdate(TerminatorBlock):
 
     text = Property(default='{{$text}}',
-                              title='Status Update Text')
+                    title='Status Update Text')
     profile_ids = ListProperty(ProfileID, default=[ProfileID()],
                                title='Profile IDs')
     access_token = StringProperty(default='[[BUFFER_ACCESS_TOKEN]]',
                                   title='Access Token')
+    version = VersionProperty('1.0.0')
 
     def process_signals(self, signals):
         for s in signals:
@@ -36,7 +34,8 @@ class BufferStatusUpdate(TerminatorBlock):
                 continue
             data = {'access_token': self.access_token(),
                     'text': text,
-                    'profile_ids[]': [pid.profile_id() for pid in self.profile_ids()]}
+                    'profile_ids[]': [pid.profile_id() for pid in
+                                      self.profile_ids()]}
             self._status_update(data)
 
     def _status_update(self, payload):
