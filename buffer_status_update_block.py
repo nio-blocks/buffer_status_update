@@ -20,7 +20,7 @@ class BufferStatusUpdate(TerminatorBlock):
                                title='Profile IDs')
     access_token = StringProperty(default='[[BUFFER_ACCESS_TOKEN]]',
                                   title='Access Token')
-    version = VersionProperty('1.0.0')
+    version = VersionProperty("1.0.0")
 
     def process_signals(self, signals):
         for s in signals:
