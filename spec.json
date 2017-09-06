@@ -2,6 +2,9 @@
   "nio/BufferStatusUpdate": {
     "version": "1.0.0",
     "description": "Create a new Buffer status update for each input signal. Uses the [/updates/create API](https://bufferapp.com/developers/api/updates#updatescreate).",
+    "categories": [
+      "Web Data"
+    ],
     "properties": {
       "access_token": {
         "title": "Access Token",
